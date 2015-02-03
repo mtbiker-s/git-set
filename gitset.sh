@@ -5,22 +5,26 @@
 curDir=pwd
 # file separator
 fs="/"
-
+# Creating the vars for choices
+work="work"
+workEmail="you@work.org"
+private="private"
+privateEmail="you@private.org"
 
 switchGitUser(){
 # Git aliases to changeusers
 gitProfile=$1
 
 eval "$(ssh-agent -s)"
-if [[ $gitProfile == "jpl" || $gitProfile == 'Jpl' || $gitProfile == "JPL"  ]]; then
+if [[ $gitProfile == $work ]]; then
 	echo "Will use "$gitProfile
 	`ssh-add /home/$USER/.ssh/work_id_rsa`
-	git config --global user.email "Carlo.E.Sanchez@jpl.nasa.gov"
+	git config --global user.email "$workEmail"
 	git config -l
 else
 	echo "Will use "$gitProfile
 	`ssh-add /home/$USER/.ssh/personal_id_rsa`
-	git config --global user.email "carloesanchez@gmail.com"
+	git config --global user.email "$privateEmail"
 	git config -l
 fi
 
@@ -32,7 +36,7 @@ echo
 echo "Program attempts to switch the git ssh key profile and git user to user with that profile"
 echo
 echo "Please enter the name of the git profile you want to use."
-echo "Current choices are 'jpl' or 'private'"
+echo "Current choices are '$work' or '$private'"
 read gitProfileToUse
 
 switchGitUser $gitProfileToUse
